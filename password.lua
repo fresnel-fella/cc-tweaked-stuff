@@ -20,10 +20,9 @@ local pin = ""
 
 function draw_buttons(x,y)
     for _,button in pairs(button_positions) do 
-        local bx,by = screen_drawing.relative_to_screen_position(button[1]/4,button[2]/4)
-        local ex,ey = bx+button_length, by+button_length
-        screen_drawing.draw(button[1]/4,button[2]/4,0,0,button[3],colors.white,colors.green,0,0,button_length,button_length)
-        if (x >= bx and x <= ex) and y >= bx and y <= ey then
+        local bx,by = button[1],button[2]
+        screen_drawing.draw(0,0,0,0,button[3],colors.white,colors.green,bx,by,1,1)
+        if x == bx and y == by then
             pin = pin .. button[3]
         end
     end
