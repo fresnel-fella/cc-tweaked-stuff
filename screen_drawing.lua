@@ -1,5 +1,6 @@
 local module = {}
 local monitor = peripheral.find("monitor")
+monitor.setTextScale(0.5)
 local sx,sy = monitor.getSize()
 print("screen size:",sx,sy)
 function module.relative_to_screen_position(x,y)
