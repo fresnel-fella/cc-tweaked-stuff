@@ -3,5 +3,7 @@ function netrequire(file_name)
 end
 print("starting monitor")
 local screen_drawing = netrequire("screen_drawing")
-screen_drawing.clear()
-screen_drawing.draw(0.25,0.25,0.5,0.5,"h")
+while true do
+    screen_drawing.clear()
+    screen_drawing.draw(0.25,0.25,0.5,0.5,"h")
+end

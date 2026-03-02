@@ -3,14 +3,15 @@ local monitor = peripheral.find("monitor")
 local sx,sy = monitor.getSize()
 print("screen size:",sx,sy)
 function module.relative_to_screen_position(x,y)
-    local sx,sy = monitor.getSize()
-    return math.floor((x-1)/(sx-1)+0.5), math.floor((y-1)/(sy-1)+0.5)
+    return math.floor(x*sx+0.5), math.floor(y*sy+0.5)
 end
 function module.clear() monitor.clear() end
 function module.draw(x,y,sx,sy,char,text_color,back_color)
     local x0,y0 = module.relative_to_screen_position(x,y)
     local x1,y1 = module.relative_to_screen_position(x+sx,y+sy)
     local xdiff,ydiff = x1-x0,y1-y0
+    print("V this is the character width and height of the thing being drawn")
+    print(xdiff,ydiff)
     text_color = text_color or colors.white
     back_color = back_color or colors.black
     for px = 0,xdiff-1,1 do
