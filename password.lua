@@ -3,7 +3,7 @@ function netrequire(file_name)
 end
 print("starting monitor")
 local screen_drawing = netrequire("screen_drawing")
-local password = require("actual_password")
+--local password = require("actual_password")
 function draw_box(x,y,sx,sy)
     screen_drawing.draw(x,y,sx,sy," ",nil,colors.lightGray)
     screen_drawing.draw(x,y,0,sy," ",nil,colors.white,0,0,1,0)
