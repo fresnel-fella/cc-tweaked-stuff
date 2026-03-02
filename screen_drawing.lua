@@ -22,7 +22,7 @@ function module.draw(x,y,sx,sy,char,text_color,back_color)
         end
     end
 end
-function get_xy_increment()
+function module.get_xy_increment()
     return 1/sx,1/sy
 end
 function module.draw_text_centred(line,x,y,text_color,back_color)
