@@ -13,6 +13,7 @@ function module.draw(x,y,sx,sy,char,text_color,back_color)
     back_color = back_color or colors.black
     for px = 0,xdiff-1,1 do
         for py = 0,ydiff-1,1 do
+            print(px,py)
             monitor.setCursorPos(x0+px,y0+py)
             monitor.blit(char,text_color,back_color)
         end
