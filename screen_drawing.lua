@@ -6,6 +6,16 @@ function module.relative_to_screen_position(x,y)
     return math.floor(x*sx+0.5)+1, math.floor(y*sy+0.5)+1
 end
 function module.clear() monitor.clear() end
+local buffer = {}
+function module.blit_buffer(a,b,c,d)
+    table.insert(buffer,{a,b,c,d})
+end
+function module.render()
+    monitor.clear()
+    for _,obj in ipairs(buffer) do 
+        monitor.blit(obj[1],obj[2],obj[3],obj[4])
+    end
+end
 function module.draw(x,y,sx,sy,char,text_color,back_color)
     local x0,y0 = module.relative_to_screen_position(x,y)
     local x1,y1 = module.relative_to_screen_position(x+sx,y+sy)
@@ -19,7 +29,7 @@ function module.draw(x,y,sx,sy,char,text_color,back_color)
             print(px,py)
             monitor.setCursorPos(x0+px,y0+py)
             print(char)
-            monitor.blit(char,text_color,back_color)
+            module.blit_buffer(char,text_color,back_color)
         end
     end
 end
@@ -34,7 +44,7 @@ function module.draw_text_centred(line,x,y,text_color,back_color)
     monitor.setCursorPos(x0,y0)
     for i = 0,string.len(line)-1,1 do
         monitor.setCursorPos(x0+i,y0)
-        monitor.blit(string.sub(line,i+1,i+1),text_color,back_color)
+        module.blit_buffer(string.sub(line,i+1,i+1),text_color,back_color)
     end
 end
 print("screen drawing loaded")
