@@ -3,7 +3,7 @@ local monitor = peripheral.find("monitor")
 local sx,sy = monitor.getSize()
 print("screen size:",sx,sy)
 function module.relative_to_screen_position(x,y)
-    return math.floor(x*sx+0.5), math.floor(y*sy+0.5)
+    return math.floor(x*sx+0.5)+1, math.floor(y*sy+0.5)+1
 end
 function module.clear() monitor.clear() end
 function module.draw(x,y,sx,sy,char,text_color,back_color)
