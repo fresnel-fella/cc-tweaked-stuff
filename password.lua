@@ -30,11 +30,12 @@ function draw_buttons(x,y)
 end
 while true do
     local event, side, x, y = os.pullEvent("monitor_touch")
+    screen_drawing.draw(0,0,1,1,"h",colors.cyan,colors.blue)
     draw_box(0.05,0.05,0.9,0.9)
     draw_buttons(x,y)
     if string.len(pin) >= 5 then
         pin = ""
     end
     screen_drawing.draw_text_centred(pin,0.5,0,colors.black,colors.lightGray)
-    screen_drawing.draw(0,0,1,1,"h",colors.cyan,colors.blue)
+    screen_drawing.render()
 end
