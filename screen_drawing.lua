@@ -1,5 +1,7 @@
 local module = {}
 local monitor = peripheral.find("monitor")
+local sx,sy = monitor.getSize()
+print("screen size:",sx,sy)
 function module.relative_to_screen_position(x,y)
     local sx,sy = monitor.getSize()
     return math.floor((x-1)/(sx-1)+0.5), math.floor((y-1)/(sy-1)+0.5)
@@ -19,4 +21,5 @@ function module.draw(x,y,sx,sy,char,text_color,back_color)
         end
     end
 end
+print("screen drawing loaded")
 return module
