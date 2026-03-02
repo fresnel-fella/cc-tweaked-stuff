@@ -3,7 +3,11 @@ function netrequire(file_name)
 end
 print("starting monitor")
 local screen_drawing = netrequire("screen_drawing")
+local x_increment,y_increment = screen_drawing.get_xy_increment()
 while true do
+    screen_drawing.draw(0,0,1,1,"h",colors.cyan,colors.blue)
     screen_drawing.clear()
-    screen_drawing.draw(0.25,0.25,0.5,0.5,"h")
+    screen_drawing.draw(0.25,0.25,0.5,0.5,"",nil,colors.white)
+    screen_drawing.draw_text_centred("hello world!",0.5,0.5,colors.black,colors.white)
+    sleep(1)
 end

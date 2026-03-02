@@ -22,5 +22,19 @@ function module.draw(x,y,sx,sy,char,text_color,back_color)
         end
     end
 end
+function get_xy_increment()
+    return 1/sx,1/sy
+end
+function module.draw_text_centred(line,x,y,text_color,back_color)
+    text_color = colors.toBlit(text_color or colors.white)
+    back_color = colors.toBlit(back_color or colors.black)
+    local x0,x1 = module.relative_to_screen_position(x,y)
+    x0 = x0 - math.floor(string.len(line)/2+0.5)
+    monitor.setCursorPos(x0,y0)
+    for i = 0,string.len(line)-1,1 do
+        monitor.setCursorPos(x0+i,y0)
+        monitor.blit(string.sub(line,i,i),text_color,back_color)
+    end
+end
 print("screen drawing loaded")
 return module
