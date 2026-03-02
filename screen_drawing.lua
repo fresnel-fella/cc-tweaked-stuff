@@ -18,9 +18,18 @@ function module.render()
     end
     buffer = {}
 end
-function module.draw(x,y,sx,sy,char,text_color,back_color)
+function module.draw(x,y,sx,sy,char,text_color,back_color,ox,oy,osx,osy)
+    ox = ox or 0
+    oy = oy or 0
+    osx = osx or 0
+    osy = osy or 0
     local x0,y0 = module.relative_to_screen_position(x,y)
+    x0 = x0 + ox
+    y0 = y0 + oy
     local x1,y1 = module.relative_to_screen_position(x+sx,y+sy)
+    x1 = x1 + osx + ox
+    y1 = y1 + osy + oy
+
     local xdiff,ydiff = x1-x0,y1-y0
     print("V this is the character width and height of the thing being drawn")
     print(xdiff,ydiff)
