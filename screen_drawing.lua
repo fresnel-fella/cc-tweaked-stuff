@@ -12,8 +12,8 @@ function module.draw(x,y,sx,sy,char,text_color,back_color)
     local xdiff,ydiff = x1-x0,y1-y0
     print("V this is the character width and height of the thing being drawn")
     print(xdiff,ydiff)
-    text_color = text_color or colors.white
-    back_color = back_color or colors.black
+    text_color = colors.toBlit(text_color or colors.white)
+    back_color = colors.toBlit(back_color or colors.black)
     for px = 0,xdiff-1,1 do
         for py = 0,ydiff-1,1 do
             print(px,py)
