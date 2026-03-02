@@ -19,7 +19,7 @@ local button_positions = {{0,0,"0"},{1,0,"1"},{2,0,"2"},{0,1,"4"},{1,1,"5"},{2,1
 local pin = ""
 
 function draw_buttons(x,y)
-    for button in pairs(button_positions) do 
+    for _,button in pairs(button_positions) do 
         local bx,by = screen_drawing.relative_to_screen_position(button[1]/4,button[2]/4)
         local ex,ey = bx+button_length, by+button_length
         screen_drawing.draw(button[1]/4,button[2]/4,0,0,button[3],colors.white,colors.green,0,0,button_length,button_length)
