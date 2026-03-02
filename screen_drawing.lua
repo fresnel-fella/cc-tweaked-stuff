@@ -6,6 +6,9 @@ print("screen size:",sx,sy)
 function module.relative_to_screen_position(x,y)
     return math.floor(x*sx+0.5)+1, math.floor(y*sy+0.5)+1
 end
+function module.relative_offset_to_screen_position(x,y,ox,oy)
+    return math.floor(x*sx+0.5)+1+ox, math.floor(y*sy+0.5)+1+oy
+end
 function module.clear() monitor.clear() end
 local buffer = {}
 function module.blit_buffer(x,y,a,b,c,d)
