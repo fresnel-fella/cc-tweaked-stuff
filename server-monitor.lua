@@ -8,13 +8,15 @@ function draw_box(x,y,sx,sy)
     screen_drawing.draw(x,y,sx,sy," ",nil,colors.lightGray)
     screen_drawing.draw(x,y,0,sy," ",nil,colors.white,0,0,1,0)
     screen_drawing.draw(x,y,sx,0," ",nil,colors.white,0,0,0,1)
-    screen_drawing.draw(x+sx,y,0,sy," ",nil,colors.black,-1,0,1,0)
-    screen_drawing.draw(x,y+sy,sx,0," ",nil,colors.black,0,-1,0,1)
+    screen_drawing.draw(x+sx,y,0,sy," ",nil,colors.gray,-1,0,1,0)
+    screen_drawing.draw(x,y+sy,sx,0," ",nil,colors.gray,0,-1,0,1)
 end
 while true do
     screen_drawing.draw(0,0,1,1,"h",colors.cyan,colors.blue)
     draw_box(0.05,0.05,0.9,0.9)
     screen_drawing.draw_text_centred("hello world!",0.5,0.5,colors.black,colors.lightGray)
+    draw_box(0,0,0.3,0.3)
+    screen_drawing.draw_text_centred("bleh",0.15,0.15,colors.black,colors.lightGray)
     screen_drawing.render()
     sleep(1)
 end
