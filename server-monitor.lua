@@ -10,6 +10,9 @@ function draw_box(x,y,sx,sy)
     screen_drawing.draw(x,y,sx,0," ",nil,colors.white,0,0,0,1)
     screen_drawing.draw(x+sx,y,0,sy," ",nil,colors.gray,-1,0,1,0)
     screen_drawing.draw(x,y+sy,sx,0," ",nil,colors.gray,0,-1,0,1)
+    screen_drawing.draw(x+sx,y,0,0,"X",colors.black,colors.red,-1,0,1,1)
+    screen_drawing.draw(x+sx,y,0,0,"#",colors.black,colors.orange,-2,0,1,1)
+    screen_drawing.draw(x+sx,y,0,0,"-",colors.black,colors.green,-3,0,1,1)
 end
 while true do
     screen_drawing.draw(0,0,1,1,"h",colors.cyan,colors.blue)
