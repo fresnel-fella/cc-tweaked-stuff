@@ -34,7 +34,7 @@ function module.draw_text_centred(line,x,y,text_color,back_color)
     monitor.setCursorPos(x0,y0)
     for i = 0,string.len(line)-1,1 do
         monitor.setCursorPos(x0+i,y0)
-        monitor.blit(string.sub(line,i,i),text_color,back_color)
+        monitor.blit(string.sub(line,i+1,i+1),text_color,back_color)
     end
 end
 print("screen drawing loaded")
