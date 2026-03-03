@@ -19,9 +19,9 @@ for x = 1,width do
     for y = 1,height do
         local byte = get_byte(image,i)
         local primary = (byte) % 16
-        local secondary = ((byte-primary) / (2^3))
+        local secondary = ((byte-primary) / (2^4))
         primary = 2^(primary)
-        secondary = 2^(primary)
+        secondary = 2^(secondary)
         print(primary)
         print(secondary)
         local primary_color = primary
