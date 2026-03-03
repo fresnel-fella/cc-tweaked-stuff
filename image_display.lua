@@ -20,8 +20,8 @@ for x = 1,width do
         local byte = get_byte(image,i)
         local primary = (byte) % 16
         local secondary = ((byte-primary) / (2^4))
-        primary = 2^(primary-1)
-        secondary = 2^(primary-1)
+        primary = 2^(primary)
+        secondary = 2^(primary)
         print(primary)
         print(secondary)
         local primary_color = colors[primary]
