@@ -24,8 +24,8 @@ for x = 1,width do
         secondary = 2^(primary)
         print(primary)
         print(secondary)
-        local primary_color = colors[primary]
-        local secondary_color = colors[secondary]
+        local primary_color = primary
+        local secondary_color = secondary
         monitor.setCursorPos(x,y)
         monitor.blit(string.char(127),colors.toBlit(primary_color),colors.toBlit(secondary_color))
         i = i + 1
