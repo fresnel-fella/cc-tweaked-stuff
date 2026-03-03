@@ -16,8 +16,8 @@ print(width)
 print(height)
 local i = 9
 monitor.clear()
-for x = 1,width do
-    for y = 1,height do
+for y = 1,height do
+    for x = 1,width do
         local byte = get_byte(image,i)
         local primary = (byte) % 16
         local secondary = ((byte-primary) / (2^4))
