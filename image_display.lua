@@ -1,4 +1,6 @@
 local monitor = peripheral.find("monitor")
+--print(http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/image_display.lua").readAll())
+--load(http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/image_display.lua").readAll())()
 function netrequire(file_name)
     return http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/"..file_name.."").readAll()
 end
@@ -17,8 +19,8 @@ for x = 1,width do
         local byte = get_byte(image,i)
         local primary = math.max(byte,15)
         local secondary = (byte-primary) >> 4
-        primary = 1 << (primary-1)
-        secondary = 2 << (secondary-1)
+        primary = bit.rshift(1 , (primary-1))
+        secondary = bit.rshift(2 , (secondary-1))
         local primary_color = colors[primary]
         local secondary_color = colors[secondary]
         monitor.setCursorPos(x,y)
