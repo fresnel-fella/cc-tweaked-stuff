@@ -1,6 +1,6 @@
 local monitor = peripheral.find("monitor")
 function netrequire(file_name)
-    return load(http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/"..file_name.."").readAll())()
+    return http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/"..file_name.."").readAll()
 end
 function get_byte(s,i)
     return string.byte(string.sub(s,i,i))
