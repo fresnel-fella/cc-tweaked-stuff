@@ -19,9 +19,9 @@ for x = 1,width do
     for y = 1,height do
         local byte = get_byte(image,i)
         local primary = math.max(byte,15)
-        local secondary = bit.rshift((byte-primary), 4)
-        primary = bit.rshift(1 , (primary-1))
-        secondary = bit.rshift(2 , (secondary-1))
+        local secondary = ((byte-primary) / (2^4))
+        primary = (1 / 2^(primary-1))
+        secondary = (2 / 2^(secondary-1))
         local primary_color = colors[primary]
         local secondary_color = colors[secondary]
         monitor.setCursorPos(x,y)
