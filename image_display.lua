@@ -1,6 +1,7 @@
 local monitor = peripheral.find("monitor")
 --print(http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/image_display.lua").readAll())
 --load(http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/image_display.lua").readAll())()
+--local fun, error = load(http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/image_display.lua").readAll()) print(error) fun()
 function netrequire(file_name)
     return http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/"..file_name.."").readAll()
 end
@@ -18,7 +19,7 @@ for x = 1,width do
     for y = 1,height do
         local byte = get_byte(image,i)
         local primary = math.max(byte,15)
-        local secondary = (byte-primary) >> 4
+        local secondary = bit.rshift((byte-primary), 4)
         primary = bit.rshift(1 , (primary-1))
         secondary = bit.rshift(2 , (secondary-1))
         local primary_color = colors[primary]
