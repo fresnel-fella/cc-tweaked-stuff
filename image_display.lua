@@ -20,8 +20,10 @@ for x = 1,width do
         local byte = get_byte(image,i)
         local primary = math.max(byte,15)
         local secondary = ((byte-primary) / (2^4))
-        primary = (1 / 2^(primary-1))
-        secondary = (2 / 2^(secondary-1))
+        primary = 2^(primary-1)
+        secondary = 2^(primary-1)
+        print(primary)
+        print(secondary)
         local primary_color = colors[primary]
         local secondary_color = colors[secondary]
         monitor.setCursorPos(x,y)
