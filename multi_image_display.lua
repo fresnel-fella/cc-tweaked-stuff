@@ -39,7 +39,7 @@ else
     config = textutils.unserialize(config)
 end
 for _, monitor_name in pairs(config) do
-    local monitor = peripheral.find("config")
+    local monitor = peripheral.find(monitor_name)
     monitor.clear()
     monitor.setTextScale(0.5)
 end
