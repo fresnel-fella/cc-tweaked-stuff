@@ -10,7 +10,7 @@ function read_file(path)
     local success = pcall(function()
         h = io.open(path,"r")
     end)
-    if success then
+    if success and h then
         local stuff = h:read("a")
         h:close()
         return stuff
