@@ -28,7 +28,7 @@ if not config then
         print("monitors> ")
         input = read()
         if input ~= "STOP" then 
-            config:insert(input)
+            table.insert(config,input)
         end
     end
     local serialized = textutils.serialize(config)
