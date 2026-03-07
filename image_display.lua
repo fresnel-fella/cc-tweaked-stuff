@@ -2,14 +2,17 @@ local monitor = peripheral.find("monitor")
 --print(http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/image_display.lua").readAll())
 --load(http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/image_display.lua").readAll())()
 --local fun, error = load(http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/image_display.lua").readAll()) print(error) fun()
-function netrequire(file_name)
-    return http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/"..file_name.."").readAll()
-end
 function get_byte(s,i)
     return string.byte(string.sub(s,i,i))
 end
+function read_file(path)
+    local h = io.open(path,"r")
+    local stuff = h:read("a")
+    h:close()
+    return stuff
+end
 monitor.setTextScale(0.5)
-local image = netrequire("output.ccp") -- ccp is not short for chinese communist party it is short for computer craft picture
+local image = read_file("boot_img.ccp")
 local width = get_byte(image,1) + get_byte(image,2)*2^8 + get_byte(image,3)*2^16 + get_byte(image,4)*2^24
 local height = get_byte(image,1+4) + get_byte(image,2+4)*2^8 + get_byte(image,3+4)*2^16 + get_byte(image,4+4)*2^24
 print(width)
