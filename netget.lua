@@ -1,0 +1,8 @@
+print("put raw file link")
+local file = read()
+print("put path to save")
+local path = read()
+local handle = io.open(path,"w")
+local contents = http.get(file).readAll()
+handle:write(contents)
+handle:close()
