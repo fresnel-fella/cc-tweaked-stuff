@@ -17,7 +17,8 @@ local private,public = comm.crypt.generate_asy_keys()
 comm.our_pri_key = private
 comm.our_pub_key = public
 
-local modem = peripheral.find("modem",rednet.open)
+peripheral.find("modem",rednet.open)
+local modem = peripheral.find("modem")
 print("your address: "..modem.getNameLocal())
 io.write("\nenter address of computer:")
 local address = read()
