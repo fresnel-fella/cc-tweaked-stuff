@@ -24,3 +24,5 @@ function netpoll:process(func)
         self.reci_requests[i] = nil
     end
 end
+
+return netpoll

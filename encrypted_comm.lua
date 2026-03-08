@@ -46,4 +46,5 @@ function comm.filter(address,msg,prot)
     addresses[address] = nil
     return true
 end
+
 return comm
