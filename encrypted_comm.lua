@@ -7,7 +7,7 @@ function netrequire(file_name)
     if error then error(error) end
     return out
 end
-local crypt = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/crypt.lua")
+local crypt = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/crypt.lua")()
 comm.crypt = crypt
 local prot = "crypt_comm"
 local init_prot = "init_comm"

@@ -4,9 +4,9 @@ function netrequire(file_name)
     return out
 end
 
-local netpoll = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/netpoll.lua")
+local netpoll = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/netpoll.lua")()
 local poll_obj = netpoll.new()
-local comm = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/encrypted_comm.lua")
+local comm = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/encrypted_comm.lua")()
 comm.on_new_comm = function(comm_obj)
     print("something happened yay")
     print("their pub key is "..comm_obj.their_pub_key:toString())
