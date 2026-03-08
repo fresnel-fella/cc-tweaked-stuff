@@ -61,7 +61,7 @@ function module.generate_keys()
 end
 
 function module.generate_asy_keys()
-    local pubA,privA = cryptolib.rsa.generateKeys(64)
+    local pubA,privA = cryptolib.rsa.generate_keys(64)
     return privA,pubA
 end
 
