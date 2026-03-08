@@ -1,6 +1,7 @@
 print("put raw file link")
+print("can be a link to a file stored on discord or on github etc")
 local file = read()
-print("put path to save")
+print("put download path")
 local path = read()
 local handle = io.open(path,"w")
 local contents = http.get(file).readAll()

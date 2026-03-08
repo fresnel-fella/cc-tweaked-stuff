@@ -1,3 +1,6 @@
+-- https://github.com/DarThunder/iDar-CryptoLib 
+-- thanks for this
+
 function sha()
     local sha = {}
 
@@ -1590,8 +1593,6 @@ end
 local rsa = rsalib()
 
 function secp256k1lib()
-    local sha = require("..iDar.CryptoLib.src.sha")
-    local bignum = require("..iDar.Bignum.src.bigNum")
 
     local ecc = {}
 

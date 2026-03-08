@@ -49,6 +49,7 @@ local height = get_byte(image,1+4) + get_byte(image,2+4)*2^8 + get_byte(image,3+
 print(width)
 print(height)
 local i = 9
+local yieldi = 0
 for y = 1,height do
     for x = 1,width do
         local mon_x = (x-1)%mon_width + 1
@@ -64,10 +65,18 @@ for y = 1,height do
         secondary = 2^(secondary)
         print(primary)
         print(secondary)
+        print(config[mon_i])
+        print(mon_x)
+        print(mon_y)
         local primary_color = primary
         local secondary_color = secondary
         monitor.setCursorPos(mon_x,mon_y)
         monitor.blit(string.char(127),colors.toBlit(primary_color),colors.toBlit(secondary_color))
         i = i + 1
+        yieldi = yieldi + 1
+    end
+    if yieldi > 10000 then
+        os.sleep(1)
+        yieldi = 0
     end
 end
