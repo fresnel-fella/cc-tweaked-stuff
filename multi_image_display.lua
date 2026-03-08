@@ -3,7 +3,7 @@ local random_monitor = peripheral.find("monitor")
 --load(http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/image_display.lua").readAll())()
 --local fun, error = load(http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/image_display.lua").readAll()) print(error) fun()
 function get_byte(s,i)
-    return string.byte(string.sub(s,i,i))
+    return s:sub(i,i):byte(1,1)
 end
 function read_file(path)
     local h
@@ -39,7 +39,7 @@ else
     config = textutils.unserialize(config)
 end
 for _, monitor_name in pairs(config) do
-    local monitor = peripheral.find(monitor_name)
+    local monitor = peripheral.wrap(monitor_name)
     monitor.clear()
     monitor.setTextScale(0.5)
 end
@@ -53,8 +53,10 @@ for y = 1,height do
     for x = 1,width do
         local mon_x = (x-1)%mon_width + 1
         local mon_y = (y-1)%mon_height + 1
-        local mon_i = ((x-1)/mon_width):floor() + ((y-1)/mon_height):floor()*width
-        local monitor = peripheral.find(config[mon_i])
+        local mon_i = 1 + math.floor((y-1)/mon_height) + math.floor((x-1)/mon_width)*(height/mon_height)
+        print(mon_i)
+        mon_i = math.min(mon_i,#config)
+        local monitor = peripheral.wrap(config[mon_i])
         local byte = get_byte(image,i)
         local primary = (byte) % 16
         local secondary = ((byte-primary) / (2^4))
@@ -64,7 +66,7 @@ for y = 1,height do
         print(secondary)
         local primary_color = primary
         local secondary_color = secondary
-        monitor.setCursorPos(x,y)
+        monitor.setCursorPos(mon_x,mon_y)
         monitor.blit(string.char(127),colors.toBlit(primary_color),colors.toBlit(secondary_color))
         i = i + 1
     end
