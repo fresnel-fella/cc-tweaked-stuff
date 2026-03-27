@@ -25,6 +25,7 @@ local address = read()
 io.write("\n")
 print("searching...")
 comm.initiate_with(address)
+comm.on_new_comm = function(comm_obj) end
 
 function process(addr,msg,prot)
     comm.filter(addr,msg,prot)

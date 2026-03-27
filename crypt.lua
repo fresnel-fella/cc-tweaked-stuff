@@ -20,7 +20,8 @@ function module.random_hex()
     return hex[index]
 end -- not actually truly random but who gaf
 
-function module.random_hexs(bytes_of_entropy)
+function module.random_hexs(bytes_of_entropy,seed)
+    if seed then math.randomseed(os.time() + math.floor(os.clock()*10000)) end
     local str = ""
     for i = 1,bytes_of_entropy do 
         str = str .. module.random_hex()

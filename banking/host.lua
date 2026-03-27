@@ -24,7 +24,7 @@ function write_file(path,contents)
         h:close()
     end
 end
-local signing = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/signing.lua")
+local crypt = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/crypt.lua")
 print("starting banking server...")
 local keys = read_file("./signature.key")
 if keys then
@@ -35,7 +35,7 @@ else
     print("make sure the server is at a secure location, someone with these keys could imitate your server!")
     if read():lower() == "y" then
         print("generating keys...")
-        local priv,pub = signing.generate_keys()
+        local priv,pub = crypt.generate_keys()
         print("done!")
         keys = {
             ["priv"] = priv:toString(),
