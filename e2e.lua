@@ -28,12 +28,12 @@ comm.our_pub_key = public
 
 peripheral.find("modem",rednet.open)
 local modem = peripheral.find("modem")
-print("your address: "..modem.getNameLocal())
+print("your address: "..os.getComputerID())
 io.write("\nenter address of computer:")
 local address = read()
 io.write("\n")
 print("searching...")
-comm.initiate_with(address)
+comm.initiate_with(tonumber(address))
 comm.on_new_comm = function(comm_obj) end
 
 function process(addr,msg,prot)
