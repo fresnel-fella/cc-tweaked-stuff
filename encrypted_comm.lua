@@ -49,7 +49,8 @@ function comm.filter(address,msg,prot)
         end
     end
     if prot ~= init_prot then return end
-    if not our_pub_key or not our_pri_key then return end
+    if not comm.our_pub_key or not comm.our_pri_key then print("no keyes") return end
+    print("ough")
     local obj = comm._new()
     local unserialised = textutils.unserialise(msg)
     local their_pub_key = {crypt.bigint.new(unserialised[1]),crypt.bigint.new(unserialised[2])}
