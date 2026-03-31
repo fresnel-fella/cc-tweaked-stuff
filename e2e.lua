@@ -39,7 +39,6 @@ comm.on_new_comm = function(comm_obj) end
 function process(addr,msg,prot)
     comm.filter(addr,msg,prot)
 end
-
 while true do
     os.sleep(0.1)
     poll_obj:poll()

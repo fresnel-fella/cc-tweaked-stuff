@@ -11,7 +11,7 @@ end
 function netpoll:poll()
     local stop = false
     repeat
-        local id,msg,prot = rednet.receive()
+        local id,msg,prot = rednet.receive(0)
         if not msg then stop = true else
             table.insert(self.reci_requests,{id,msg,prot})
         end
