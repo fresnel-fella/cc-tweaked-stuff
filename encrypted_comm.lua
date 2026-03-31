@@ -31,7 +31,7 @@ function cancel(address)
 end
 
 function comm.initiate_with(address)
-    rednet.send(address,textutils:serialize({comm.our_pub_key[1]:toString(),comm.our_pub_key[2]:toString()}),init_prot)
+    rednet.send(address,textutils.serialize({comm.our_pub_key[1]:toString(),comm.our_pub_key[2]:toString()}),init_prot)
     addresses[address] = true
 end
 
@@ -54,7 +54,7 @@ function comm.filter(address,msg,prot)
     local their_pub_key = crypt.bigint.new({unserialised[1],unserialised[2]})
     obj.their_pub_key = their_pub_key
     if not addresses[address] then
-        rednet.send(address,{our_pub_key[1]:toString(),our_pub_key[2]:toString()},prot)
+        rednet.send(address,textutils.serialize({comm.our_pub_key[1]:toString(),comm.our_pub_key[2]:toString()}),prot)
     end
     comm.on_new_comm(obj)
     comm.address = address
