@@ -12,15 +12,12 @@ poll_obj.start(poll_obj,function()
         print("something happened yay")
         print("their pub key is "..comm_obj.their_pub_key:toString())
         parallel.waitForAll(function() 
-            comm_obj:use_coroutine(function() 
-                print("coroutine created")
-                while true do
-                    print("send a message:")
-                    local message = io.read()
-                    print(message)
-                    comm_obj:send_encrypted({["message"] = message})
-                end
-            end)
+            while true do
+                print("send a message:")
+                local message = io.read()
+                print(message)
+                comm_obj:send_encrypted({["message"] = message})
+            end
         end,function() 
             while true do 
                 local recieved = comm_obj:receive()
