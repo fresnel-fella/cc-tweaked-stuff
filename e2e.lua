@@ -26,6 +26,8 @@ poll_obj.start(poll_obj,function()
     local private,public = comm.crypt.generate_asy_keys()
     comm.our_pri_key = private
     comm.our_pub_key = public
+    print("private:",private)
+    print("public:",public)
 
     peripheral.find("modem",rednet.open)
     local modem = peripheral.find("modem")
