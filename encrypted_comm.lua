@@ -35,7 +35,7 @@ function comm.initiate_with(address)
     addresses[address] = true
 end
 
-function comm:recieve()
+function comm:receive()
     while true do 
         sleep(0.01)
         if #self.received > 0 then
