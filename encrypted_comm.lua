@@ -56,6 +56,7 @@ function comm.filter(address,msg,prot)
     if not addresses[address] then
         rednet.send(address,textutils.serialize({comm.our_pub_key[1]:toString(),comm.our_pub_key[2]:toString()}),prot)
     end
+    print("initial protocol complete")
     comm.on_new_comm(obj)
     comm.address = address
     addresses[address] = nil
