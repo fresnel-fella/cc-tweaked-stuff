@@ -9,14 +9,17 @@ function netpoll.new()
 end
 
 function netpoll:poll()
-    local stop = false
-    repeat
-        local id,msg,prot = rednet.receive()
-        if not msg then stop = true else
-            print(id,msg,prot)
-            table.insert(self.reci_requests,{id,msg,prot})
-        end
-    until stop
+    -- local stop = false
+    -- repeat
+    --     local id,msg,prot = rednet.receive()
+    --     if not msg then stop = true else
+    --         print(id,msg,prot)
+    --         table.insert(self.reci_requests,{id,msg,prot})
+    --     end
+    -- until stop
+    local id,msg,prot = rednet.receive()
+    print(id,msg,prot)
+    table.insert(self.reci_requests,{id,msg,prot})
 end
 
 function netpoll:process(func)
