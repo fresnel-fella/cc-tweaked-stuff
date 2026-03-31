@@ -67,7 +67,7 @@ function module.generate_asy_keys()
 end
 
 
-module.bigint = cryptolib.bigint
+module.bignum = cryptolib.bignum
 module.encrypt = cryptolib.rsa.encrypt
 module.decrypt = cryptolib.rsa.decrypt
 
