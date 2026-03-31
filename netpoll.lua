@@ -11,8 +11,9 @@ end
 function netpoll:poll()
     local stop = false
     repeat
-        local id,msg,prot = rednet.receive(0)
+        local id,msg,prot = rednet.receive()
         if not msg then stop = true else
+            print(id,msg,prot)
             table.insert(self.reci_requests,{id,msg,prot})
         end
     until stop
@@ -23,6 +24,14 @@ function netpoll:process(func)
         func(req[1],req[2],req[3])
         self.reci_requests[i] = nil
     end
+end
+
+function netpoll.start(netpoll_obj,main)
+    parallel.waitForAll(main,function()
+        while true do
+            netpoll_obj:poll()
+        end
+    end)
 end
 
 return netpoll
