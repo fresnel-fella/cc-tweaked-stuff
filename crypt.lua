@@ -66,6 +66,7 @@ function module.generate_asy_keys()
     return privA,pubA
 end
 
+-- DONT USE RSA DIRECTLY YOU GOOBER
 
 module.bignum = cryptolib.bignum
 module.encrypt = cryptolib.rsa.encrypt
