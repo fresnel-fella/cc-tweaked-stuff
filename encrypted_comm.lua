@@ -31,7 +31,7 @@ function cancel(address)
 end
 
 function comm.initiate_with(address)
-    rednet.send(address,our_pub_key,init_prot)
+    rednet.send(address,our_pub_key:toString(),init_prot)
     addresses[address] = true
 end
 
