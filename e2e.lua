@@ -42,7 +42,6 @@ poll_obj.start(poll_obj,function()
     end
     while true do
         os.sleep(0.1)
-        poll_obj:poll()
         poll_obj:process(process)
         print(math.random(1,5))
     end
