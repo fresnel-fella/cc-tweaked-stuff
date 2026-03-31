@@ -10,7 +10,7 @@ poll_obj.start(poll_obj,function()
     local comm = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/encrypted_comm.lua")()
     comm.on_new_comm = function(comm_obj)
         print("something happened yay")
-        print("their pub key is "..comm_obj.their_pub_key:toString())
+        print("their pub key is "..comm_obj.their_pub_key[1],comm_obj.their_pub_key[2])
         parallel.waitForAll(function() 
             while true do
                 print("send a message:")
