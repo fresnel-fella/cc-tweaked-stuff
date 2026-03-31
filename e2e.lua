@@ -11,13 +11,21 @@ poll_obj.start(poll_obj,function()
     comm.on_new_comm = function(comm_obj)
         print("something happened yay")
         print("their pub key is "..comm_obj.their_pub_key:toString())
-        comm_obj:use_coroutine(function() 
-            print("coroutine created")
-            while true do
-                print("send a message:")
-                local message = io.read()
-                print(message)
-                comm_obj:send_encrypted({["message"] = message})
+        parallel.waitForAll(function() 
+            comm_obj:use_coroutine(function() 
+                print("coroutine created")
+                while true do
+                    print("send a message:")
+                    local message = io.read()
+                    print(message)
+                    comm_obj:send_encrypted({["message"] = message})
+                end
+            end)
+        end,function() 
+            while true do 
+                local recieved = comm_obj:receive()
+                print(recieved)
+                print("user:",recieved.message)
             end
         end)
     end
@@ -37,7 +45,6 @@ poll_obj.start(poll_obj,function()
     io.write("\n")
     print("searching...")
     comm.initiate_with(tonumber(address))
-    comm.on_new_comm = function(comm_obj) end
 
     function process(addr,msg,prot)
         print("processing")

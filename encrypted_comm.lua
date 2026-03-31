@@ -14,7 +14,7 @@ local entropy = time_a+time_b+math.floor(os.clock()*1000)
 comm.crypt = crypt
 local comm_prot = "crypt_comm"
 local init_prot = "init_comm"
-function comm.on_new_comm(comm_obj) end
+--function comm.on_new_comm(comm_obj) end
 function comm._new()
     local self = {}
     setmetatable(self,comm)
@@ -35,6 +35,16 @@ function comm.initiate_with(address)
     addresses[address] = true
 end
 
+function comm:recieve()
+    while true do 
+        sleep(0.01)
+        if #self.received > 0 then
+            table.remove(self.received,1)
+            return self.received[1]
+        end
+    end
+end
+
 function comm.filter(address,msg,prot)
     print("VLEFUAGHU")
     if comm_prot == prot then
@@ -44,7 +54,7 @@ function comm.filter(address,msg,prot)
             local decrypted = object:decrypt(msg)
             local decrypted_table = textutils.unserialise(decrypted)
             if decrypted_table then
-                comm_objects[address].coroutine.resume(decrypted_table)
+                table.insert(object.received,decrypted_table)
             end
         end
     end
@@ -59,16 +69,11 @@ function comm.filter(address,msg,prot)
         rednet.send(address,textutils.serialize({comm.our_pub_key[1]:toString(),comm.our_pub_key[2]:toString()}),prot)
     end
     print("initial protocol complete")
-    comm.on_new_comm(obj)
     comm.address = address
+    comm.received = {}
     addresses[address] = nil
+    comm.on_new_comm(obj)
     return true
-end
-
-function comm:use_coroutine(func)
-    local cor = coroutine.create(func)
-    coroutine.resume(co)
-    self.coroutine = cor
 end
 
 function comm:decrypt(msg)
