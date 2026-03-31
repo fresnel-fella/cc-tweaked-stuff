@@ -36,6 +36,7 @@ function comm.initiate_with(address)
 end
 
 function comm.filter(address,msg,prot)
+    print("VLEFUAGHU")
     if comm_prot == prot then
         if comm_objects[address] then
             -- unsafe, verification needed

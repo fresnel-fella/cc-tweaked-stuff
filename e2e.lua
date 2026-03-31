@@ -40,6 +40,7 @@ poll_obj.start(poll_obj,function()
     comm.on_new_comm = function(comm_obj) end
 
     function process(addr,msg,prot)
+        print("processing")
         comm.filter(addr,msg,prot)
     end
     while true do
