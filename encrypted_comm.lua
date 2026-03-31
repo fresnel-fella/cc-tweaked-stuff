@@ -51,7 +51,7 @@ function comm.filter(address,msg,prot)
     if not our_pub_key or not our_pri_key then return end
     local obj = comm._new()
     local unserialised = textutils.unserialise(msg)
-    local their_pub_key = crypt.bigint.new({unserialised[1],unserialised[2]})
+    local their_pub_key = {crypt.bigint.new(unserialised[1]),crypt.bigint.new(unserialised[2])}
     obj.their_pub_key = their_pub_key
     if not addresses[address] then
         rednet.send(address,textutils.serialize({comm.our_pub_key[1]:toString(),comm.our_pub_key[2]:toString()}),prot)
