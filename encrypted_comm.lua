@@ -21,6 +21,8 @@ function comm._new()
     return self
 end
 
+local addresses = {}
+local comm_objects = {}
 local phases = {}
 
 function cancel(address)
@@ -32,9 +34,6 @@ function comm.initiate_with(address)
     rednet.send(address,our_pub_key,init_prot)
     addresses[address] = true
 end
-
-local addresses = {}
-local comm_objects = {}
 
 function comm.filter(address,msg,prot)
     if comm_prot == prot then
