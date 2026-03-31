@@ -38,8 +38,8 @@ local comm_objects = {}
 
 function comm.filter(address,msg,prot)
     if comm_prot == prot then
-        if comm_objects[address] then 
-            -- unsafe
+        if comm_objects[address] then
+            -- unsafe, verification needed
             local object = comm_objects[address]
             local decrypted = object:decrypt(msg)
             local decrypted_table = textutils.unserialise(decrypted)
@@ -85,6 +85,11 @@ function comm:encrypt(msg)
     if success and encrypted_msg then
         return encrypted_msg
     end
+end
+function comm:send_encrypted(msg)
+    local encrypted = self:encrypt(textutils.serialize(msg))
+    print("ENCRYPTED:",encrypted)
+    rednet.send(address,encrypted,comm_prot)
 end
 
 return comm

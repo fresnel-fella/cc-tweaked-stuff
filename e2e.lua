@@ -10,6 +10,15 @@ local comm = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-twea
 comm.on_new_comm = function(comm_obj)
     print("something happened yay")
     print("their pub key is "..comm_obj.their_pub_key:toString())
+    comm_obj:use_coroutine(function() 
+        print("coroutine created")
+        while true do
+            print("send a message:")
+            local message = io.read()
+            print(message)
+            comm_obj:send_encrypted({["message"] = message})
+        end
+    end)
 end
 
 print("generating keys...")
