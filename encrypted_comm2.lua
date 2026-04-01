@@ -2,6 +2,7 @@
 local comm = {}
 comm.debug_mode = false
 comm.__index = comm
+comm.listener = nil -- change this before doing anything or make listener rednet.receive
 
 function printverbose(...)
     if comm.debug_mode then 
@@ -32,7 +33,7 @@ function recieve_from_id(their_id,their_prot)
     their_prot = their_prot or init_prot
     local id,msg,prot = nil,nil,nil
     while true do 
-        id,msg,prot = rednet.receive()
+        id,msg,prot = comm.listener()
         if id == their_id and prot == their_prot then
             return id,msg,prot
         end
@@ -97,7 +98,7 @@ function comm.receive_until_object_created()
         local nonce = chacha.generateNonce() -- please kill me for sending this in plaintext over the network i dont know how this works
         printverbose(nonce,"nonce")
         --0 
-        local id,serialised_pub_key,prot = rednet.receive()
+        local id,serialised_pub_key,prot = comm.listener()
         printverbose(id,serialised_pub_key,prot,"STAGE0")
         if prot == init_prot then
             local pub_key_deserialised = textutils.unserialise(serialised_pub_key)
@@ -142,7 +143,7 @@ end
 
 function comm:receive(plaintext)
     while true do
-        local id,msg,prot = rednet.receive()
+        local id,msg,prot = comm.listener()
         printverbose("received presumably encrypted message from",id,"containing",msg)
         local decrypted = chacha.decrypt(msg,self.my_key,self.nonce)
         printverbose("decrypted message: ",decrypted)
