@@ -1,3 +1,4 @@
+--e2e
 function netrequire(file_name)
     local out,error = load(http.get(file_name).readAll())
     if error then error(error) end
