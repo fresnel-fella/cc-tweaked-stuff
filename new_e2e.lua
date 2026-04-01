@@ -14,7 +14,7 @@ function on_new_comm(comm)
         while true do 
             print(">")
             local message = io.read()
-            self:send(textutils.serialise({["message"]=message,["user"]=username}))
+            comm:send(textutils.serialise({["message"]=message,["user"]=username}))
         end
    end,
    function()
