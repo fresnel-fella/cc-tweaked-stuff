@@ -1,4 +1,14 @@
 --encrypted_comm2
+local comm = {}
+comm.debug_mode = false
+comm.__index = comm
+
+function printverbose(...)
+    if comm.debug_mode then 
+        print(...)
+    end
+end
+
 function netrequire(file_name)
     local out,error = load(http.get(file_name).readAll())
     if error then error(error) end
@@ -17,16 +27,6 @@ printverbose(pubRSA[2],"pubRSA")
 
 local init_prot = "init_encrypt"
 local msg_prot = "whatever"
-
-local comm = {}
-comm.debug_mode = false
-comm.__index = comm
-
-function printverbose(...)
-    if comm.debug_mode then 
-        print(...)
-    end
-end
 
 function recieve_from_id(their_id,their_prot)
     their_prot = their_prot or init_prot
