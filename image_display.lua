@@ -15,8 +15,8 @@ monitor.setTextScale(0.5)
 local image = read_file("boot_img.ccp")
 local width = get_byte(image,1) + get_byte(image,2)*2^8 + get_byte(image,3)*2^16 + get_byte(image,4)*2^24
 local height = get_byte(image,1+4) + get_byte(image,2+4)*2^8 + get_byte(image,3+4)*2^16 + get_byte(image,4+4)*2^24
-printverbose(width)
-printverbose(height)
+print(width)
+print(height)
 local i = 9
 monitor.clear()
 for y = 1,height do
@@ -26,8 +26,8 @@ for y = 1,height do
         local secondary = ((byte-primary) / (2^4))
         primary = 2^(primary)
         secondary = 2^(secondary)
-        printverbose(primary)
-        printverbose(secondary)
+        print(primary)
+        print(secondary)
         local primary_color = primary
         local secondary_color = secondary
         monitor.setCursorPos(x,y)

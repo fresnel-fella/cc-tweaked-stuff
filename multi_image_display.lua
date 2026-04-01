@@ -20,12 +20,12 @@ local image = read_file("boot_img.ccp")
 local config = read_file("image.cfg")
 if not config then
 	config = {}
-	printverbose("config not detected")
-	printverbose("type network names of monitors in right wrapping to downwards order starting at the top left")
-	printverbose("monitors must be uniform size")
+	print("config not detected")
+	print("type network names of monitors in right wrapping to downwards order starting at the top left")
+	print("monitors must be uniform size")
 	local input = ""
 	while input ~= "STOP" do
-		printverbose("monitors> ")
+		print("monitors> ")
 		input = read()
 		if input ~= "STOP" then
 			table.insert(config, input)
@@ -59,8 +59,8 @@ local height = get_byte(image, 1 + 4)
 	+ get_byte(image, 2 + 4) * 2 ^ 8
 	+ get_byte(image, 3 + 4) * 2 ^ 16
 	+ get_byte(image, 4 + 4) * 2 ^ 24
-printverbose(width)
-printverbose(height)
+print(width)
+print(height)
 local i = 9
 local yieldi = 0
 for y = 1, height do
@@ -68,7 +68,7 @@ for y = 1, height do
 		local mon_x = (x - 1) % mon_width + 1
 		local mon_y = (y - 1) % mon_height + 1
 		local mon_i = 1 + math.floor((y - 1) / mon_height) + math.floor((x - 1) / mon_width) * (height / mon_height)
-		printverbose(mon_i)
+		print(mon_i)
 		mon_i = math.min(mon_i, #config)
 		local monitor = peripheral.wrap(config[mon_i])
 		local byte = get_byte(image, i)
@@ -76,11 +76,11 @@ for y = 1, height do
 		local secondary = ((byte - primary) / (2 ^ 4))
 		primary = 2 ^ primary
 		secondary = 2 ^ secondary
-		printverbose(primary)
-		printverbose(secondary)
-		printverbose(config[mon_i])
-		printverbose(mon_x)
-		printverbose(mon_y)
+		print(primary)
+		print(secondary)
+		print(config[mon_i])
+		print(mon_x)
+		print(mon_y)
 		local primary_color = primary
 		local secondary_color = secondary
 		monitor.setCursorPos(mon_x, mon_y)

@@ -46,7 +46,7 @@ function comm:receive()
 end
 
 function comm.filter(address,msg,prot)
-    printverbose("VLEFUAGHU")
+    print("VLEFUAGHU")
     if comm_prot == prot then
         if comm_objects[address] then
             -- unsafe, verification needed
@@ -59,8 +59,8 @@ function comm.filter(address,msg,prot)
         end
     end
     if prot ~= init_prot then return end
-    if not comm.our_pub_key or not comm.our_pri_key then printverbose("no keyes") return end
-    printverbose("ough")
+    if not comm.our_pub_key or not comm.our_pri_key then print("no keyes") return end
+    print("ough")
     local obj = comm._new()
     local unserialised = textutils.unserialise(msg)
     local their_pub_key = {crypt.bignum(unserialised[1]),crypt.bignum(unserialised[2])}
@@ -68,7 +68,7 @@ function comm.filter(address,msg,prot)
     if not addresses[address] then
         rednet.send(address,textutils.serialize({comm.our_pub_key[1]:toString(),comm.our_pub_key[2]:toString()}),prot)
     end
-    printverbose("initial protocol complete")
+    print("initial protocol complete")
     comm.address = address
     comm.received = {}
     addresses[address] = nil
@@ -96,7 +96,7 @@ function comm:encrypt(msg)
 end
 function comm:send_encrypted(msg)
     local encrypted = self:encrypt(textutils.serialize(msg))
-    printverbose("ENCRYPTED:",encrypted)
+    print("ENCRYPTED:",encrypted)
     rednet.send(address,encrypted,comm_prot)
 end
 

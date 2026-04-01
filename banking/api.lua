@@ -20,14 +20,14 @@ function recieve(id,prot)
     until msg ~= nil or os.clock() - old > 1
     return msg
 end
-function printverbose(...)
+function print(...)
     if module.verbose then 
-        printverbose(...)
+        print(...)
     end
 end
 
 function module.new_connection(bank_pub_key,your_pub_key,your_priv_key)
-    printverbose("creating new connection with the server")
+    print("creating new connection with the server")
     peripheral.find("modem", rednet.open)
     if not bank_pub_key then return end
     if not your_pub_key then return end
@@ -49,7 +49,7 @@ function module.new_connection(bank_pub_key,your_pub_key,your_priv_key)
         end
     end
     if not verified then return end
-    printverbose("server is authentic")
+    print("server is authentic")
 
     rednet.send(verified,"K",bank_prot)
     self.asy_pub_key = recieve(verified,bank_prot)

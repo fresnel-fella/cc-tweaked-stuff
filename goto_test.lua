@@ -1,3 +1,3 @@
 ::start::
-printverbose("hi")
+print("hi")
 goto start

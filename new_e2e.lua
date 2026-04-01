@@ -1,5 +1,5 @@
-printverbose("your address: "..os.getComputerID())
-printverbose("your username:")
+print("your address: "..os.getComputerID())
+print("your username:")
 local username = io.read()
 function netrequire(file_name)
     local out,error = load(http.get(file_name).readAll())
@@ -8,11 +8,11 @@ function netrequire(file_name)
 end
 
 function on_new_comm(comm)
-   printverbose("success")
+   print("success")
    parallel.waitForAll(
    function()
         while true do 
-            printverbose(">")
+            print(">")
             local message = io.read()
             comm:send(textutils.serialise({["message"]=message,["user"]=username}))
         end
@@ -22,33 +22,33 @@ function on_new_comm(comm)
             local msg = comm:receive()
             local object = textutils.unserialise(msg)
             if object and object.message then 
-                printverbose(object.user..":",object.message)
-                printverbose(">")
+                print(object.user..":",object.message)
+                print(">")
             end
         end
    end)
 end
 
 local encrypted_comm = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/encrypted_comm2.lua")()
-printverbose("initiate or receive? [R/i]:")
+print("initiate or receive? [R/i]:")
 local char = io.read()
 if char:sub(1,1):upper()=="R" then
-    printverbose("receiving...")
+    print("receiving...")
     local obj = encrypted_comm.receive_until_object_created()
     if obj then
         on_new_comm(obj)
     else 
-        printverbose("failed to receive???")
+        print("failed to receive???")
     end
-    printverbose("end of receiving")
+    print("end of receiving")
 else
-    printverbose("what computer?:")
+    print("what computer?:")
     local computer = tonumber(io.read())
-    printverbose("initiating...")
+    print("initiating...")
     local obj = encrypted_comm.initiate(computer)
     if obj then
         on_new_comm(obj)
     else
-        printverbose("failed to initiate")
+        print("failed to initiate")
     end
 end

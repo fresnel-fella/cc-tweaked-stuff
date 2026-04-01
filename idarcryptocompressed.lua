@@ -1821,7 +1821,7 @@ function secp256k1lib()
         local R_prime_affine = to_affine(R_prime_proj)
 
         local r_prime = R_prime_affine.x % N
-        printverbose("R de verifiacion: ", r_prime)
+        print("R de verifiacion: ", r_prime)
 
         return {result = sign.r == r_prime, message = "Signature verification result"}
     end

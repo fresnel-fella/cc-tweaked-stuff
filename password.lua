@@ -1,7 +1,7 @@
 function netrequire(file_name)
     return load(http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/"..file_name..".lua").readAll())()
 end
-printverbose("starting monitor")
+print("starting monitor")
 local screen_drawing = netrequire("screen_drawing")
 --local password = require("actual_password")
 function draw_box(x,y,sx,sy)
