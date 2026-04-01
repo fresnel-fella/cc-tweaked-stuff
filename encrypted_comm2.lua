@@ -11,8 +11,6 @@ local bignum = cryptolib.bignum
 
 print("generating RSA keypair...")
 local pubRSA, privRSA = rsa.generate_keys(64)
-print("generating AES-CBC key...")
-local my_key = aes.generate_iv():sub(1,8)
 
 
 local init_prot = "init_encrypt"
@@ -33,6 +31,8 @@ function recieve_from_id(their_id,their_prot)
 end
 
 function comm.initiate(id)
+    print("generating AES-CBC key...")
+    local my_key = aes.generate_iv():sub(1,8)
     print("START")
     --0
     print("INITIATING WITH",id)
@@ -66,6 +66,8 @@ end
 
 -- needs signing
 function comm.receive_until_object_created()
+    print("generating AES-CBC key...")
+    local my_key = aes.generate_iv():sub(1,8)
     print("START")
     while true do 
         --0 
@@ -91,6 +93,7 @@ function comm.receive_until_object_created()
                     local self = {}
                     self.their_key = their_key
                     self.their_id = id
+                    self.my_key = my_key
                     setmetatable(self,comm)
                     return self
                 end
