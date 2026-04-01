@@ -11,6 +11,7 @@ local bignum = cryptolib.bignum
 
 print("generating RSA keypair...")
 local pubRSA, privRSA = rsa.generate_keys(64)
+print(pubRSA[1],"pubRSA")
 
 
 local init_prot = "init_encrypt"
@@ -33,7 +34,7 @@ end
 function comm.initiate(id)
     print("generating key...")
     local my_key = string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))
-    print(my_key)
+    print(my_key,"my_key")
     print("START")
     --0
     print("INITIATING WITH",id)
@@ -46,6 +47,7 @@ function comm.initiate(id)
     print(id,their_pub_key,prot,"STAGE1")
     local pub_key_deserialised = textutils.unserialise(their_pub_key)
     local their_pub_key = {bignum(pub_key_deserialised[1]),bignum(pub_key_deserialised[2])}
+    print(their_pub_key[1],"their_pub_key[1]")
     local encrypted = rsa.encrypt(my_key,privRSA)
     if encrypted then
         --2
@@ -74,18 +76,19 @@ end
 function comm.receive_until_object_created()
     print("generating key...")
     local my_key = string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))
-    print(my_key)
+    print(my_key,"my_key")
     print("START")
     while true do
         print("generating nonce...")
         local nonce = chacha.generateNonce() -- please kill me for sending this in plaintext over the network i dont know how this works
-        print(nonce)
+        print(nonce,"nonce")
         --0 
         local id,serialised_pub_key,prot = rednet.receive()
         print(id,serialised_pub_key,prot,"STAGE0")
         if prot == init_prot then
             local pub_key_deserialised = textutils.unserialise(serialised_pub_key)
             local their_pub_key = {bignum(pub_key_deserialised[1]),bignum(pub_key_deserialised[2])}
+            print(their_pub_key[1],"their_pub_key[1]")
             local our_pub_key_serialised = textutils.serialise({pubRSA[1]:toString(),pubRSA[2]:toString()})
             --1
             rednet.send(id,{our_pub_key_serialised,nonce},prot)
@@ -100,7 +103,7 @@ function comm.receive_until_object_created()
                     --3
                     rednet.send(id,encrypted:toString(),prot)
                     -- exchanged symmetric keys
-                    print(their_key)
+                    print(their_key,"their_key")
                     local self = {}
                     self.their_key = their_key
                     self.their_id = id
