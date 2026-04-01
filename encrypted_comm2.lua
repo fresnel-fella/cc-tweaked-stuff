@@ -6,7 +6,7 @@ end
 
 local cryptolib = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/idarcryptocompressed.lua")()
 local rsa = cryptolib.rsa
-local aes = cryptolib.aes
+local chacha = cryptolib.chacha
 local bignum = cryptolib.bignum
 
 print("generating RSA keypair...")
@@ -31,14 +31,16 @@ function recieve_from_id(their_id,their_prot)
 end
 
 function comm.initiate(id)
-    print("generating AES-CBC key...")
-    local my_key = aes.generate_iv():sub(1,8)
+    print("generating key...")
+    local my_key = string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))
     print("START")
     --0
     print("INITIATING WITH",id)
     rednet.send(id,textutils.serialise({pubRSA[1]:toString(),pubRSA[2]:toString()}),init_prot)
     --1
-    local id,their_pub_key,prot = recieve_from_id(id)
+    local id,something,prot = recieve_from_id(id)
+    local their_pub_key = something[1]
+    local nonce = something[2]
     print(id,their_pub_key,prot,"STAGE1")
     local pub_key_deserialised = textutils.unserialise(their_pub_key)
     local their_pub_key = {bignum(pub_key_deserialised[1]),bignum(pub_key_deserialised[2])}
@@ -58,6 +60,7 @@ function comm.initiate(id)
             local self = {}
             self.their_key = their_key
             self.their_id = id
+            self.nonce = nonce
             setmetatable(self,comm)
             return self
         end
@@ -66,10 +69,12 @@ end
 
 -- needs signing
 function comm.receive_until_object_created()
-    print("generating AES-CBC key...")
-    local my_key = aes.generate_iv():sub(1,8)
+    print("generating key...")
+    local my_key = string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))
     print("START")
-    while true do 
+    while true do
+        print("generating nonce...")
+        local nonce = chacha.generateNonce() -- please kill me for sending this in plaintext over the network i dont know how this works
         --0 
         local id,serialised_pub_key,prot = rednet.receive()
         print(id,serialised_pub_key,prot,"STAGE0")
@@ -78,7 +83,7 @@ function comm.receive_until_object_created()
             local their_pub_key = {bignum(pub_key_deserialised[1]),bignum(pub_key_deserialised[2])}
             local our_pub_key_serialised = textutils.serialise({pubRSA[1]:toString(),pubRSA[2]:toString()})
             --1
-            rednet.send(id,our_pub_key_serialised,prot)
+            rednet.send(id,{our_pub_key_serialised,nonce},prot)
             --2
             local id,encrypted_key,prot = recieve_from_id(id)
             print(id,encrypted_key,prot,"STAGE2")
@@ -94,6 +99,7 @@ function comm.receive_until_object_created()
                     self.their_key = their_key
                     self.their_id = id
                     self.my_key = my_key
+                    self.nonce = nonce
                     setmetatable(self,comm)
                     return self
                 end
@@ -103,8 +109,7 @@ function comm.receive_until_object_created()
 end
 
 function comm:send(plaintext)
-   local iv = aes.generate_iv()
-   local encrypted = aes.cbc_encrypt(plaintext, self.their_key, iv)
+   local encrypted = chacha.encrypt(plaintext, self.their_key, self.nonce)
    rednet.send(self.their_id,encrypted,msg_prot)
 end
 
@@ -112,7 +117,7 @@ function comm:receive(plaintext)
     while true do
         local id,msg,prot = rednet.receive()
         print("received presumably encrypted message from",id,"containing",msg)
-        local decrypted = aes.cbc_decrypt(msg,self.my_key)
+        local decrypted = chacha.decrypt(msg,self.my_key,self.nonce)
         print("decrypted message: ",decrypted)
         -- authentication comes in the ability to encrypt messages so no digital signing is needed
         if decrypted and prot == msg_prot then

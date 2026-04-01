@@ -1,6 +1,7 @@
 -- https://github.com/DarThunder/iDar-CryptoLib 
 -- thanks for this
 
+
 function sha()
     local sha = {}
 
