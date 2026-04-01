@@ -45,7 +45,7 @@ function comm.initiate(id)
     local nonce = something[2]
     local pub_key_deserialised = textutils.unserialise(their_pub_key)
     local their_pub_key = {bignum(pub_key_deserialised[1]),bignum(pub_key_deserialised[2])}
-    local encrypted = rsa.encrypt(my_key,privRSA)
+    local encrypted = rsa.encrypt(my_key,their_pub_key)
     if encrypted then
         --2
         print("for whatever reason i think encrypted is a table")
@@ -98,7 +98,7 @@ function comm.receive_until_object_created()
             local their_key = rsa.decrypt(bignum(encrypted_key),privRSA)
             print("blele")
             if their_key then
-                local encrypted = rsa.encrypt(my_key,pubRSA)
+                local encrypted = rsa.encrypt(my_key,their_pub_key)
                 if encrypted then 
                     --3
                     rednet.send(id,encrypted:toString(),prot)
