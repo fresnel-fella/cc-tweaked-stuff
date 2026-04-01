@@ -111,7 +111,9 @@ end
 function comm:receive(plaintext)
     while true do
         local id,msg,prot = rednet.receive()
+        print("received presumably encrypted message from",id,"containing",msg)
         local decrypted = aes.cbc_decrypt(msg,self.my_key)
+        print("decrypted message: ",decrypted)
         -- authentication comes in the ability to encrypt messages so no digital signing is needed
         if decrypted and prot == msg_prot then
             return decrypted
