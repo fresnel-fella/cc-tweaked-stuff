@@ -43,11 +43,8 @@ function comm.initiate(id)
     local id,something,prot = recieve_from_id(id)
     local their_pub_key = something[1]
     local nonce = something[2]
-    print("nonce:",nonce)
-    print(id,their_pub_key,prot,"STAGE1")
     local pub_key_deserialised = textutils.unserialise(their_pub_key)
     local their_pub_key = {bignum(pub_key_deserialised[1]),bignum(pub_key_deserialised[2])}
-    print(their_pub_key[2],"their_pub_key[2]")
     local encrypted = rsa.encrypt(my_key,privRSA)
     if encrypted then
         --2
@@ -104,6 +101,9 @@ function comm.receive_until_object_created()
                     rednet.send(id,encrypted:toString(),prot)
                     -- exchanged symmetric keys
                     print(their_key,"their_key")
+                    print(their_pub_key[2]:toString(),"their_pub_key")
+                    print(my_key,"my_key")
+                    print(pubRSA[2]:toString(),"my_pub_key")
                     local self = {}
                     self.their_key = their_key
                     self.their_id = id
