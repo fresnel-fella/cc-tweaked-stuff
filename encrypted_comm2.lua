@@ -77,8 +77,9 @@ function comm.receive_until_object_created()
             local id,encrypted_key,prot = recieve_from_id(id)
             print(id,encrypted_key,prot,"STAGE2")
             local their_key = rsa.decrypt(encrypted_key,privRSA)
+            print("blele")
             if their_key then
-                local encrypted = rsa.encrypt(my_key,privRSA)
+                local encrypted = rsa.encrypt(my_key,pubRSA)
                 if encrypted then 
                     --3
                     rednet.send(id,encrypted,prot)
