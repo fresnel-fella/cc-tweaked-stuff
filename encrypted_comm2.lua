@@ -26,7 +26,7 @@ printverbose(pubRSA[2],"pubRSA")
 
 
 local init_prot = "init_encrypt"
-local msg_prot = "whatever"
+local msg_prot = "enc_msg"
 
 function recieve_from_id(their_id,their_prot)
     their_prot = their_prot or init_prot
@@ -37,6 +37,10 @@ function recieve_from_id(their_id,their_prot)
             return id,msg,prot
         end
     end
+end
+
+function comm.random_bytes()
+    return string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))
 end
 
 function comm.initiate(id)
@@ -132,7 +136,7 @@ function comm.receive_until_object_created()
 end
 
 function comm:send(plaintext)
-   local encrypted = chacha.encrypt(plaintext, self.their_key, self.nonce)
+   local encrypted = chacha.encrypt(random_bytes()..plaintext, self.their_key, self.nonce)
    rednet.send(self.their_id,encrypted,msg_prot)
 end
 
@@ -144,7 +148,7 @@ function comm:receive(plaintext)
         printverbose("decrypted message: ",decrypted)
         -- authentication comes in the ability to encrypt messages so no digital signing is needed
         if decrypted and prot == msg_prot then
-            return decrypted
+            return decrypted:sub(9,-1)
         end
     end
 end
