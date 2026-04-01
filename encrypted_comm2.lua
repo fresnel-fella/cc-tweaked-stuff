@@ -45,6 +45,10 @@ function comm.initiate(id)
     local encrypted = rsa.encrypt(my_key,privRSA)
     if encrypted then
         --2
+        print("for whatever reason i think encrypted is a table")
+        for k,v in pairs(encrypted) do 
+            print(k,",",v)
+        end
         rednet.send(id,encrypted,prot)
         --3
         local id,encrypted_key,prot = recieve_from_id(id)
