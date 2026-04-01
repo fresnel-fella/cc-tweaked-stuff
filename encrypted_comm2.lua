@@ -37,6 +37,7 @@ function comm.initiate(id)
     rednet.send(id,textutils.serialise({pubRSA[1]:toString(),pubRSA[2]:toString()}),init_prot)
     --1
     local id,their_pub_key,prot = recieve_from_id(id)
+    print(id,their_pub_key,prot,"STAGE1")
     local pub_key_deserialised = textutils.unserialise(their_pub_key)
     local their_pub_key = {bignum(pub_key_deserialised[1]),bignum(pub_key_deserialised[2])}
     local encrypted = rsa.encrypt(my_key,privRSA)
@@ -45,6 +46,7 @@ function comm.initiate(id)
         rednet.send(id,encrypted,prot)
         --3
         local id,encrypted_key,prot = recieve_from_id(id)
+        print(id,encrypted_key,prot,"STAGE3")
         local their_key = rsa.decrypt(encrypted_key,privRSA)
         if their_key then 
             local self = {}
@@ -61,6 +63,7 @@ function comm.recieve_until_object_created()
     while true do 
         --0 
         local id,serialised_pub_key,prot = rednet.receive()
+        print(id,serialised_pub_key,prot,"STAGE0")
         if prot == init_prot then
             local pub_key_deserialised = textutils.unserialise(serialised_pub_key)
             local their_pub_key = {bignum(pub_key_deserialised[1]),bignum(pub_key_deserialised[2])}
@@ -69,6 +72,7 @@ function comm.recieve_until_object_created()
             rednet.send(id,our_pub_key_serialised,prot)
             --2
             local id,encrypted_key,prot = recieve_from_id(id)
+            print(id,encrypted_key,prot,"STAGE2")
             local their_key = rsa.decrypt(encrypted_key,privRSA)
             if their_key then
                 local encrypted = rsa.encrypt(my_key,privRSA)
