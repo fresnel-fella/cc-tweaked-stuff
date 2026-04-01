@@ -39,7 +39,7 @@ function recieve_from_id(their_id,their_prot)
     end
 end
 
-function comm.random_bytes()
+function random_bytes()
     return string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))
 end
 
