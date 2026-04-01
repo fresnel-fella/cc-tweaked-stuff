@@ -20,7 +20,7 @@ function on_new_comm(comm)
    function()
         while true do
             local msg = comm:receive()
-            local object = textutils.deserialise(msg)
+            local object = textutils.unserialise(msg)
             if object and object.message then 
                 print(object.user..":",object.message)
                 print(">")
