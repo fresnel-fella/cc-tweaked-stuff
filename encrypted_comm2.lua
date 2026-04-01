@@ -62,9 +62,11 @@ function comm.initiate(id)
             print(their_pub_key[2]:toString(),"their_pub_key")
             print(my_key,"my_key")
             print(pubRSA[2]:toString(),"my_pub_key")
+            print(nonce,"nonce")
             local self = {}
             self.their_key = their_key
             self.their_id = id
+            self.my_key = my_key
             self.nonce = nonce
             setmetatable(self,comm)
             return self
@@ -107,6 +109,7 @@ function comm.receive_until_object_created()
                     print(their_pub_key[2]:toString(),"their_pub_key")
                     print(my_key,"my_key")
                     print(pubRSA[2]:toString(),"my_pub_key")
+                    print(nonce,"nonce")
                     local self = {}
                     self.their_key = their_key
                     self.their_id = id
