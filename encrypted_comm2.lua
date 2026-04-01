@@ -33,6 +33,7 @@ end
 function comm.initiate(id)
     print("generating key...")
     local my_key = string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))
+    print(my_key)
     print("START")
     --0
     print("INITIATING WITH",id)
@@ -41,6 +42,7 @@ function comm.initiate(id)
     local id,something,prot = recieve_from_id(id)
     local their_pub_key = something[1]
     local nonce = something[2]
+    print("nonce:",nonce)
     print(id,their_pub_key,prot,"STAGE1")
     local pub_key_deserialised = textutils.unserialise(their_pub_key)
     local their_pub_key = {bignum(pub_key_deserialised[1]),bignum(pub_key_deserialised[2])}
@@ -57,6 +59,7 @@ function comm.initiate(id)
         print(id,encrypted_key,prot,"STAGE3")
         local their_key = rsa.decrypt(bignum(encrypted_key),privRSA)
         if their_key then 
+            print(their_key)
             local self = {}
             self.their_key = their_key
             self.their_id = id
@@ -71,10 +74,12 @@ end
 function comm.receive_until_object_created()
     print("generating key...")
     local my_key = string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))
+    print(my_key)
     print("START")
     while true do
         print("generating nonce...")
         local nonce = chacha.generateNonce() -- please kill me for sending this in plaintext over the network i dont know how this works
+        print(nonce)
         --0 
         local id,serialised_pub_key,prot = rednet.receive()
         print(id,serialised_pub_key,prot,"STAGE0")
@@ -95,6 +100,7 @@ function comm.receive_until_object_created()
                     --3
                     rednet.send(id,encrypted:toString(),prot)
                     -- exchanged symmetric keys
+                    print(their_key)
                     local self = {}
                     self.their_key = their_key
                     self.their_id = id
