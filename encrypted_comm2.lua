@@ -4,12 +4,6 @@ function netrequire(file_name)
     return out
 end
 
-function printverbose(...)
-    if comm.debug_mode then 
-        print(...)
-    end
-end
-
 local cryptolib = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/idarcryptocompressed.lua")()
 local rsa = cryptolib.rsa
 local chacha = cryptolib.chacha
@@ -26,6 +20,12 @@ local msg_prot = "whatever"
 local comm = {}
 comm.debug_mode = false
 comm.__index = comm
+
+function printverbose(...)
+    if comm.debug_mode then 
+        print(...)
+    end
+end
 
 function recieve_from_id(their_id,their_prot)
     their_prot = their_prot or init_prot
