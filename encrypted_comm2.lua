@@ -12,7 +12,7 @@ local bignum = cryptolib.bignum
 print("generating RSA keypair...")
 local pubRSA, privRSA = rsa.generate_keys(64)
 print("generating AES-CBC key...")
-local my_key = aes.generate_iv()
+local my_key = aes.generate_iv():sub(1,8)
 
 
 local init_prot = "init_encrypt"
@@ -33,6 +33,7 @@ function recieve_from_id(their_id,their_prot)
 end
 
 function comm.initiate(id)
+    print("START")
     --0
     print("INITIATING WITH",id)
     rednet.send(id,textutils.serialise({pubRSA[1]:toString(),pubRSA[2]:toString()}),init_prot)
@@ -60,7 +61,8 @@ function comm.initiate(id)
 end
 
 -- needs signing
-function comm.recieve_until_object_created()
+function comm.receive_until_object_created()
+    print("START")
     while true do 
         --0 
         local id,serialised_pub_key,prot = rednet.receive()

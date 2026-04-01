@@ -34,12 +34,13 @@ print("initiate or receive? [R/i]:")
 local char = io.read()
 if char:sub(1,1):upper()=="R" then
     print("receiving...")
-    local obj = encrypted_comm.recieve_until_object_created()
+    local obj = encrypted_comm.receive_until_object_created()
     if obj then
         on_new_comm(obj)
     else 
         print("failed to receive???")
     end
+    print("end of receiving")
 else
     print("what computer?:")
     local computer = tonumber(io.read())
