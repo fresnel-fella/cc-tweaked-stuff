@@ -34,6 +34,7 @@ end
 
 function comm.initiate(id)
     --0
+    print("INITIATING WITH",id)
     rednet.send(id,textutils.serialise({pubRSA[1]:toString(),pubRSA[2]:toString()}),init_prot)
     --1
     local id,their_pub_key,prot = recieve_from_id(id)
