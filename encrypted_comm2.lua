@@ -11,7 +11,7 @@ local bignum = cryptolib.bignum
 
 print("generating RSA keypair...")
 local pubRSA, privRSA = rsa.generate_keys(64)
-print(pubRSA[1],"pubRSA")
+print(pubRSA[2],"pubRSA")
 
 
 local init_prot = "init_encrypt"
@@ -47,7 +47,7 @@ function comm.initiate(id)
     print(id,their_pub_key,prot,"STAGE1")
     local pub_key_deserialised = textutils.unserialise(their_pub_key)
     local their_pub_key = {bignum(pub_key_deserialised[1]),bignum(pub_key_deserialised[2])}
-    print(their_pub_key[1],"their_pub_key[1]")
+    print(their_pub_key[2],"their_pub_key[2]")
     local encrypted = rsa.encrypt(my_key,privRSA)
     if encrypted then
         --2
