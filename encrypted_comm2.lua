@@ -58,7 +58,10 @@ function comm.initiate(id)
         print(id,encrypted_key,prot,"STAGE3")
         local their_key = rsa.decrypt(bignum(encrypted_key),privRSA)
         if their_key then 
-            print(their_key)
+            print(their_key,"their_key")
+            print(their_pub_key[2]:toString(),"their_pub_key")
+            print(my_key,"my_key")
+            print(pubRSA[2]:toString(),"my_pub_key")
             local self = {}
             self.their_key = their_key
             self.their_id = id
