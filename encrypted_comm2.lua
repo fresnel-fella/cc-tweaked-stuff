@@ -49,11 +49,11 @@ function comm.initiate(id)
         for k,v in pairs(encrypted) do 
             print(k,",",v)
         end
-        rednet.send(id,encrypted,prot)
+        rednet.send(id,encrypted:toString(),prot)
         --3
         local id,encrypted_key,prot = recieve_from_id(id)
         print(id,encrypted_key,prot,"STAGE3")
-        local their_key = rsa.decrypt(encrypted_key,privRSA)
+        local their_key = rsa.decrypt(bignum(encrypted_key),privRSA)
         if their_key then 
             local self = {}
             self.their_key = their_key
@@ -80,13 +80,13 @@ function comm.receive_until_object_created()
             --2
             local id,encrypted_key,prot = recieve_from_id(id)
             print(id,encrypted_key,prot,"STAGE2")
-            local their_key = rsa.decrypt(encrypted_key,privRSA)
+            local their_key = rsa.decrypt(bignum(encrypted_key),privRSA)
             print("blele")
             if their_key then
                 local encrypted = rsa.encrypt(my_key,pubRSA)
                 if encrypted then 
                     --3
-                    rednet.send(id,encrypted,prot)
+                    rednet.send(id,encrypted:toString(),prot)
                     -- exchanged symmetric keys
                     local self = {}
                     self.their_key = their_key
