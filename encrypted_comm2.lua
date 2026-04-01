@@ -4,20 +4,27 @@ function netrequire(file_name)
     return out
 end
 
+function printverbose(...)
+    if comm.debug_mode then 
+        print(...)
+    end
+end
+
 local cryptolib = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/idarcryptocompressed.lua")()
 local rsa = cryptolib.rsa
 local chacha = cryptolib.chacha
 local bignum = cryptolib.bignum
 
-print("generating RSA keypair...")
+printverbose("generating RSA keypair...")
 local pubRSA, privRSA = rsa.generate_keys(64)
-print(pubRSA[2],"pubRSA")
+printverbose(pubRSA[2],"pubRSA")
 
 
 local init_prot = "init_encrypt"
 local msg_prot = "whatever"
 
 local comm = {}
+comm.debug_mode = false
 comm.__index = comm
 
 function recieve_from_id(their_id,their_prot)
@@ -32,12 +39,12 @@ function recieve_from_id(their_id,their_prot)
 end
 
 function comm.initiate(id)
-    print("generating key...")
+    printverbose("generating key...")
     local my_key = string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))
-    print(my_key,"my_key")
-    print("START")
+    printverbose(my_key,"my_key")
+    printverbose("START")
     --0
-    print("INITIATING WITH",id)
+    printverbose("INITIATING WITH",id)
     rednet.send(id,textutils.serialise({pubRSA[1]:toString(),pubRSA[2]:toString()}),init_prot)
     --1
     local id,something,prot = recieve_from_id(id)
@@ -48,21 +55,21 @@ function comm.initiate(id)
     local encrypted = rsa.encrypt(my_key,their_pub_key)
     if encrypted then
         --2
-        print("for whatever reason i think encrypted is a table")
+        printverbose("for whatever reason i think encrypted is a table")
         for k,v in pairs(encrypted) do 
-            print(k,",",v)
+            printverbose(k,",",v)
         end
         rednet.send(id,encrypted:toString(),prot)
         --3
         local id,encrypted_key,prot = recieve_from_id(id)
-        print(id,encrypted_key,prot,"STAGE3")
+        printverbose(id,encrypted_key,prot,"STAGE3")
         local their_key = rsa.decrypt(bignum(encrypted_key),privRSA)
         if their_key then 
-            print(their_key,"their_key")
-            print(their_pub_key[2]:toString(),"their_pub_key")
-            print(my_key,"my_key")
-            print(pubRSA[2]:toString(),"my_pub_key")
-            print(nonce,"nonce")
+            printverbose(their_key,"their_key")
+            printverbose(their_pub_key[2]:toString(),"their_pub_key")
+            printverbose(my_key,"my_key")
+            printverbose(pubRSA[2]:toString(),"my_pub_key")
+            printverbose(nonce,"nonce")
             local self = {}
             self.their_key = their_key
             self.their_id = id
@@ -76,40 +83,40 @@ end
 
 -- needs signing
 function comm.receive_until_object_created()
-    print("generating key...")
+    printverbose("generating key...")
     local my_key = string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))..string.char(math.random(0,255))
-    print(my_key,"my_key")
-    print("START")
+    printverbose(my_key,"my_key")
+    printverbose("START")
     while true do
-        print("generating nonce...")
+        printverbose("generating nonce...")
         local nonce = chacha.generateNonce() -- please kill me for sending this in plaintext over the network i dont know how this works
-        print(nonce,"nonce")
+        printverbose(nonce,"nonce")
         --0 
         local id,serialised_pub_key,prot = rednet.receive()
-        print(id,serialised_pub_key,prot,"STAGE0")
+        printverbose(id,serialised_pub_key,prot,"STAGE0")
         if prot == init_prot then
             local pub_key_deserialised = textutils.unserialise(serialised_pub_key)
             local their_pub_key = {bignum(pub_key_deserialised[1]),bignum(pub_key_deserialised[2])}
-            print(their_pub_key[1],"their_pub_key[1]")
+            printverbose(their_pub_key[1],"their_pub_key[1]")
             local our_pub_key_serialised = textutils.serialise({pubRSA[1]:toString(),pubRSA[2]:toString()})
             --1
             rednet.send(id,{our_pub_key_serialised,nonce},prot)
             --2
             local id,encrypted_key,prot = recieve_from_id(id)
-            print(id,encrypted_key,prot,"STAGE2")
+            printverbose(id,encrypted_key,prot,"STAGE2")
             local their_key = rsa.decrypt(bignum(encrypted_key),privRSA)
-            print("blele")
+            printverbose("blele")
             if their_key then
                 local encrypted = rsa.encrypt(my_key,their_pub_key)
                 if encrypted then 
                     --3
                     rednet.send(id,encrypted:toString(),prot)
                     -- exchanged symmetric keys
-                    print(their_key,"their_key")
-                    print(their_pub_key[2]:toString(),"their_pub_key")
-                    print(my_key,"my_key")
-                    print(pubRSA[2]:toString(),"my_pub_key")
-                    print(nonce,"nonce")
+                    printverbose(their_key,"their_key")
+                    printverbose(their_pub_key[2]:toString(),"their_pub_key")
+                    printverbose(my_key,"my_key")
+                    printverbose(pubRSA[2]:toString(),"my_pub_key")
+                    printverbose(nonce,"nonce")
                     local self = {}
                     self.their_key = their_key
                     self.their_id = id
@@ -131,9 +138,9 @@ end
 function comm:receive(plaintext)
     while true do
         local id,msg,prot = rednet.receive()
-        print("received presumably encrypted message from",id,"containing",msg)
+        printverbose("received presumably encrypted message from",id,"containing",msg)
         local decrypted = chacha.decrypt(msg,self.my_key,self.nonce)
-        print("decrypted message: ",decrypted)
+        printverbose("decrypted message: ",decrypted)
         -- authentication comes in the ability to encrypt messages so no digital signing is needed
         if decrypted and prot == msg_prot then
             return decrypted

@@ -2,7 +2,7 @@ local module = {}
 local monitor = peripheral.find("monitor")
 monitor.setTextScale(0.5)
 local sx,sy = monitor.getSize()
-print("screen size:",sx,sy)
+printverbose("screen size:",sx,sy)
 function module.relative_to_screen_position(x,y)
     return math.floor(x*sx+0.5)+1, math.floor(y*sy+0.5)+1
 end
@@ -35,8 +35,8 @@ function module.draw(x,y,sx,sy,char,text_color,back_color,ox,oy,osx,osy)
     y1 = y1 + osy + oy
 
     local xdiff,ydiff = x1-x0,y1-y0
-    print("V this is the character width and height of the thing being drawn")
-    print(xdiff,ydiff)
+    printverbose("V this is the character width and height of the thing being drawn")
+    printverbose(xdiff,ydiff)
     text_color = colors.toBlit(text_color or colors.white)
     back_color = colors.toBlit(back_color or colors.black)
     for px = 0,xdiff-1,1 do
@@ -57,5 +57,5 @@ function module.draw_text_centred(line,x,y,text_color,back_color)
         module.blit_buffer(x0+i,y0,string.sub(line,i+1,i+1),text_color,back_color)
     end
 end
-print("screen drawing loaded")
+printverbose("screen drawing loaded")
 return module

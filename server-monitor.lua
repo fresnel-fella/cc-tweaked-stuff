@@ -1,7 +1,7 @@
 function netrequire(file_name)
     return load(http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/"..file_name..".lua").readAll())()
 end
-print("starting monitor")
+printverbose("starting monitor")
 local screen_drawing = netrequire("screen_drawing")
 local x_increment,y_increment = screen_drawing.get_xy_increment()
 function draw_box(x,y,sx,sy)

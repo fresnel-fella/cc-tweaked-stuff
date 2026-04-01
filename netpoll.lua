@@ -18,7 +18,7 @@ function netpoll:poll()
     --     end
     -- until stop
     local id,msg,prot = rednet.receive()
-    print(id,msg,prot)
+    printverbose(id,msg,prot)
     table.insert(self.reci_requests,{id,msg,prot})
 end
 

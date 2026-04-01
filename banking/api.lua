@@ -22,7 +22,7 @@ function recieve(id,prot)
 end
 function printverbose(...)
     if module.verbose then 
-        print(...)
+        printverbose(...)
     end
 end
 

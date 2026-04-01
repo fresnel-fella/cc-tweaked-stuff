@@ -7,4 +7,4 @@ local iv = aes.generate_iv() -- 16 random bytes
 local encrypted = aes.cbc_encrypt(data, key, iv)
 local decrypted = aes.cbc_decrypt(encrypted, key)
 
-print(decrypted) -- Output: Sensitive information
+printverbose(decrypted) -- Output: Sensitive information

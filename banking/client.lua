@@ -1,6 +1,6 @@
 -- ^ should be a "pub_key" variable assigned with the public key of the host here, server can generate this line
 if not pub_key then
-    print("no pub_key variable here! use the generated file from the server")
+    printverbose("no pub_key variable here! use the generated file from the server")
     return
 end
 function netrequire(file_name)

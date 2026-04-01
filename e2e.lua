@@ -9,42 +9,42 @@ local poll_obj = netpoll.new()
 poll_obj.start(poll_obj,function()
     local comm = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/encrypted_comm.lua")()
     comm.on_new_comm = function(comm_obj)
-        print("something happened yay")
-        print("their pub key is "..tostring(comm_obj.their_pub_key[1]),tostring(comm_obj.their_pub_key[2]))
+        printverbose("something happened yay")
+        printverbose("their pub key is "..tostring(comm_obj.their_pub_key[1]),tostring(comm_obj.their_pub_key[2]))
         parallel.waitForAll(function() 
             while true do
-                print("send a message:")
+                printverbose("send a message:")
                 local message = io.read()
-                print(message)
+                printverbose(message)
                 comm_obj:send_encrypted({["message"] = message})
             end
         end,function() 
             while true do 
                 local recieved = comm_obj:receive()
-                print(recieved)
-                print("user:",recieved.message)
+                printverbose(recieved)
+                printverbose("user:",recieved.message)
             end
         end)
     end
 
-    print("generating keys...")
+    printverbose("generating keys...")
     local private,public = comm.crypt.generate_asy_keys()
     comm.our_pri_key = private
     comm.our_pub_key = public
-    print("private:",private)
-    print("public:",public)
+    printverbose("private:",private)
+    printverbose("public:",public)
 
     peripheral.find("modem",rednet.open)
     local modem = peripheral.find("modem")
-    print("your address: "..os.getComputerID())
+    printverbose("your address: "..os.getComputerID())
     io.write("\nenter address of computer:")
     local address = io.read()
     io.write("\n")
-    print("searching...")
+    printverbose("searching...")
     comm.initiate_with(tonumber(address))
 
     function process(addr,msg,prot)
-        print("processing")
+        printverbose("processing")
         comm.filter(addr,msg,prot)
     end
     while true do

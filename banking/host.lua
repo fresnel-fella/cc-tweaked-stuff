@@ -25,32 +25,32 @@ function write_file(path,contents)
     end
 end
 local crypt = netrequire("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/crypt.lua")
-print("starting banking server...")
+printverbose("starting banking server...")
 local keys = read_file("./signature.key")
 if keys then
     keys = textutils.unserialize(keys)
-    print("found keys file")
+    printverbose("found keys file")
 else
-    print("no keys file detected, would you like to generate them? [y/N]")
-    print("make sure the server is at a secure location, someone with these keys could imitate your server!")
+    printverbose("no keys file detected, would you like to generate them? [y/N]")
+    printverbose("make sure the server is at a secure location, someone with these keys could imitate your server!")
     if read():lower() == "y" then
-        print("generating keys...")
+        printverbose("generating keys...")
         local priv,pub = crypt.generate_keys()
-        print("done!")
+        printverbose("done!")
         keys = {
             ["priv"] = priv:toString(),
             ["pub"] = pub:toString()
         }
         write_file("./signature.key",textutils.serialize(keys))
-        print("generating client program...")
+        printverbose("generating client program...")
         local rest = http.get("https://raw.githubusercontent.com/fresnel-fella/cc-tweaked-stuff/refs/heads/main/banking/client.lua").readAll()
         local start_line = "local pub_key = " .. "\"" .. pub:toString() .. "\"" .. "\n"
         local contents = start_line..rest
         write_file("./client.lua",contents)
-        print("done!")
+        printverbose("done!")
     else
         return
     end
 end
-print("setup done!")
+printverbose("setup done!")
 
